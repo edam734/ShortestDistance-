@@ -10,8 +10,9 @@ public class Main {
 		char[][] grid = { { '0', '*', '0', 's' }, { '*', '0', '*', '*' }, { '0', '*', '*', '*' },
 				{ 'd', '*', '*', '*' } };
 		char[][] grid2 = { { '0', 's' }, { '*', '0',  } };
+		char[][] grid3 = { { '0', '*', 's' }, { 'd', '0', '*' }, };
 
-		TreeBuilder tb = new TreeBuilder(grid);
+		TreeBuilder tb = new TreeBuilder(grid3);
 		SearchShortedTree st = tb.buildSearchTree();
 		System.out.println(st.getRoot().toString());
 		int output = st.minDistance();

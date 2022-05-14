@@ -15,40 +15,7 @@ public class Node {
 		super();
 		this.children = new ArrayList<>();
 		this.value = value;
-		this.uid = line + "" + column;
-	}
-
-	public boolean addChildren(Node node) {
-		if (!isInParentTree(this, node)) {
-			node.addParent(this);
-			return children.add(node);
-		} 
-		return false;
-	}
-	
-	private void addParent(Node node) {
-		this.parent = node;
-	}
-
-	public boolean isInParentTree(Node n1, Node n2) {
-		
-		if (n1 == null) { // is root
-			return false;
-		}
-//		System.out.println("current: " + n1.toSimpleString());
-//		System.out.println("child: " + n2.toSimpleString());
-		if (!n1.equals(n2)) {
-			return isInParentTree(n1.parent, n2);
-		}
-		return true;
-	}
-	
-	public boolean wasVisited() {
-		return this.count == 4;
-	}
-	
-	public void increment() {
-		this.count++;
+		this.uid = new StringBuilder().append(line).append(column).toString();
 	}
 
 	public List<Node> getChildren() {
@@ -61,6 +28,36 @@ public class Node {
 
 	public String getUid() {
 		return uid;
+	}
+
+	public boolean addChildren(Node node) {
+//		if (!isAlreadyInTree(node)) {
+			node.addParent(this);
+			return children.add(node);
+//		}
+//		return false;
+	}
+
+	private void addParent(Node node) {
+		this.parent = node;
+	}
+
+	public boolean isAlreadyInTree(Node leaf) {
+		if (leaf == null) { // could be root's parent 
+			return false;
+		}
+		if (!this.equals(leaf)) {
+			return this.isAlreadyInTree(leaf.parent);
+		}
+		return true;
+	}
+
+	public boolean wasVisited() {
+		return this.count == 4;
+	}
+
+	public void increment() {
+		this.count++;
 	}
 
 	@Override
@@ -95,8 +92,7 @@ public class Node {
 
 	public String toSimpleString() {
 		return "Node [value=" + value + ", uid=" + uid + "]";
-		
+
 	}
-	
 
 }
