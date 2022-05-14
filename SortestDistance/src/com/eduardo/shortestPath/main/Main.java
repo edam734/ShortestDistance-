@@ -9,14 +9,17 @@ public class Main {
 	public static void main(String[] args) {
 		char[][] grid = { { '0', '*', '0', 's' }, { '*', '0', '*', '*' }, { '0', '*', '*', '*' },
 				{ 'd', '*', '*', '*' } };
-		char[][] grid2 = { { '0', 's' }, { '*', '0',  } };
-		char[][] grid3 = { { '*', '*', 's' }, { 'd', '*', '*' }, };
+		char[][] grid2 = { { '0', 's' }, { 'd', '*'  } };
+		char[][] grid3 = { { '*', '*', 's' }, { '*', 'd', '*' }, };
+		char[][] grid4 = { { '*', '*', 's' }, { 'd', '*', '*' }, };
 
 		TreeBuilder tb = new TreeBuilder(grid3);
 		SearchShortedTree st = tb.buildSearchTree();
 		System.out.println(st.getRoot().toString());
 		int output = st.minDistance();
-		System.out.println(output);
+		int outputBFS = st.minDistanceBFS();
+		System.out.println("output: " + output);
+		System.out.println("outputBFS: " + outputBFS);
 		
 		// teste
 //		Node n1 = new Node('a', 1, 0);

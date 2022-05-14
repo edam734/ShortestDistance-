@@ -50,7 +50,7 @@ public class Node {
 
 	@Override
 	public String toString() {
-		return "Node [children=" + children + ", uid=" + uid + "]";
+		return "Node [uid=" + uid + ", value=" + value + "]";
 	}
 
 	@Override
