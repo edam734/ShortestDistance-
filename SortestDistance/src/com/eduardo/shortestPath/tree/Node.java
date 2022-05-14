@@ -9,7 +9,6 @@ public class Node {
 	private Node parent = null;
 	private char value;
 	private String uid;
-	private int count = 0;
 
 	public Node(char value, int line, int column) {
 		super();
@@ -31,11 +30,8 @@ public class Node {
 	}
 
 	public boolean addChildren(Node node) {
-//		if (!isAlreadyInTree(node)) {
-			node.addParent(this);
-			return children.add(node);
-//		}
-//		return false;
+		node.addParent(this);
+		return children.add(node);
 	}
 
 	private void addParent(Node node) {
@@ -43,21 +39,13 @@ public class Node {
 	}
 
 	public boolean isAlreadyInTree(Node leaf) {
-		if (leaf == null) { // could be root's parent 
+		if (leaf == null) { // could be root's parent
 			return false;
 		}
 		if (!this.equals(leaf)) {
 			return this.isAlreadyInTree(leaf.parent);
 		}
 		return true;
-	}
-
-	public boolean wasVisited() {
-		return this.count == 4;
-	}
-
-	public void increment() {
-		this.count++;
 	}
 
 	@Override

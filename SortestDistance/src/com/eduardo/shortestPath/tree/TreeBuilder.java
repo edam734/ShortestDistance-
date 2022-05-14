@@ -1,21 +1,12 @@
 package com.eduardo.shortestPath.tree;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TreeBuilder {
 
 	char[][] grid;
 	Node destiny;
-	int addedCount = 0;
-	int size;
-	List<Node> visited;
-	int i = 0;
 
 	public TreeBuilder(char[][] grid) {
 		this.grid = grid;
-		this.size = grid[0].length * grid.length;
-		this.visited = new ArrayList<>();
 		this.destiny = getDestinyNode();
 	}
 
@@ -26,7 +17,7 @@ public class TreeBuilder {
 
 		int startLine = Integer.valueOf(root.getUid().substring(0, 1));
 		int startColumn = Integer.valueOf(root.getUid().substring(1, 2));
-		addAdjacentNode(root, startLine, startColumn);
+		addAdjacentNode(null, root, startLine, startColumn);
 
 		return tree;
 	}
@@ -70,109 +61,43 @@ public class TreeBuilder {
 		return destiny;
 	}
 
-	private void addAdjacentNode(Node current, int line, int column) {
-		addAdjacentNodeAuxNew(null, current, line, column); // start with root
-	}
+	private void addAdjacentNode(Node previous, Node current, int line, int column) {
 
-	private void addAdjacentNodeAux(Node previous, Node current, int line, int column) {
+		if (current != null && !isObstacle(line, column)) {
 
-		if (/* addedCount < size */ i < 500 && current != null
-				&& !current.isAlreadyInTree(previous)/* && !wasNodeVisited(current) */) {
-			i++;
-			current = addNodeToTree(previous, current, line, column);
+			addNodeToTree(previous, current, line, column);
 
 			if (!current.equals(destiny)) {
 				// verifica acima
-				int aboveLine = line - 1;
-				Node aboveNode = getNextNode(current, aboveLine, column);
-				current.increment();
-				printShit(current, aboveNode, "acima");
-				addAdjacentNodeAux(current, aboveNode, aboveLine, column);
-
-				// verifica à esquerda
-				int leftColumn = column - 1;
-				Node leftNode = getNextNode(current, line, leftColumn);
-				current.increment();
-				printShit(current, leftNode, "esquerda");
-				addAdjacentNodeAux(current, leftNode, line, leftColumn);
-
-				// verifica abaixo
-				int belowLine = line + 1;
-				Node belowNode = getNextNode(current, belowLine, column);
-				current.increment();
-				printShit(current, belowNode, "abaixo");
-				addAdjacentNodeAux(current, belowNode, belowLine, column);
-
-				// verifica à direita
-				int rightColumn = column + 1;
-				Node rightNode = getNextNode(current, line, rightColumn);
-				current.increment();
-				printShit(current, rightNode, "direita");
-				addAdjacentNodeAux(current, rightNode, line, rightColumn);
-
-//			visited.add(current);
-			}
-		}
-
-	}
-
-	private void addAdjacentNodeAuxNew(Node previous, Node current, int line, int column) {
-
-		if (i < 500 && current != null) {
-			current = addNodeToTree(previous, current, line, column);
-			i++;
-			if (!current.equals(destiny)) {
-				// verifica acima
-				int aboveLine = line - 1;
-				Node aboveNode = getNextNode(current, aboveLine, column);
+				Node aboveNode = getAdjacentNode(current, line - 1, column);
 				if (aboveNode != null && !aboveNode.isAlreadyInTree(current)) {
-					current.increment();
 					printShit(current, aboveNode, "acima");
-					addAdjacentNodeAuxNew(current, aboveNode, aboveLine, column);
-				} else {
-//					System.out.println(current.getUid() + " já pertence à árvore de " + aboveNode.getUid());
+					addAdjacentNode(current, aboveNode, line - 1, column);
 				}
 
 				// verifica à esquerda
-				int leftColumn = column - 1;
-				Node leftNode = getNextNode(current, line, leftColumn);
+				Node leftNode = getAdjacentNode(current, line, column - 1);
 				if (leftNode != null && !leftNode.isAlreadyInTree(current)) {
-					current.increment();
 					printShit(current, leftNode, "esquerda");
-					addAdjacentNodeAuxNew(current, leftNode, line, leftColumn);
-				} else {
-//					System.out.println(current.getUid() + " já pertence à árvore de " + leftNode.getUid());
+					addAdjacentNode(current, leftNode, line, column - 1);
 				}
 
 				// verifica abaixo
-				int belowLine = line + 1;
-				Node belowNode = getNextNode(current, belowLine, column);
+				Node belowNode = getAdjacentNode(current, line + 1, column);
 				if (belowNode != null && !belowNode.isAlreadyInTree(current)) {
-					current.increment();
 					printShit(current, belowNode, "abaixo");
-					addAdjacentNodeAuxNew(current, belowNode, belowLine, column);
-				} else {
-//					System.out.println(current.getUid() + " já pertence à árvore de " + belowNode.getUid());
+					addAdjacentNode(current, belowNode, line + 1, column);
 				}
 
 				// verifica à direita
-				int rightColumn = column + 1;
-				Node rightNode = getNextNode(current, line, rightColumn);
+				Node rightNode = getAdjacentNode(current, line, column + 1);
 				if (rightNode != null && !rightNode.isAlreadyInTree(current)) {
-					current.increment();
 					printShit(current, rightNode, "direita");
-					addAdjacentNodeAuxNew(current, rightNode, line, rightColumn);
-				} else {
-//					System.out.println(current.getUid() + " já pertence à árvore de " + rightNode.getUid());
+					addAdjacentNode(current, rightNode, line, column + 1);
 				}
 
-//			visited.add(current);
 			}
 		}
-	}
-
-	private boolean wasNodeVisited(Node node) {
-		return visited.contains(node) && node.wasVisited();
 	}
 
 	private void printShit(Node parent, Node current, String dir) {
@@ -186,13 +111,12 @@ public class TreeBuilder {
 			boolean added = parent.addChildren(current);
 			if (added) {
 				System.out.println("adicionou " + current.getUid() + " a " + parent.getUid());
-				this.addedCount++;
 			}
 		}
 		return current;
 	}
 
-	private Node getNextNode(Node parent, int line, int column) {
+	private Node getAdjacentNode(Node parent, int line, int column) {
 		Node node = null;
 		try {
 			node = new Node(grid[line][column], line, column);
@@ -200,6 +124,10 @@ public class TreeBuilder {
 
 		}
 		return node;
+	}
+
+	private boolean isObstacle(int line, int column) {
+		return grid[line][column] == '0';
 	}
 
 }

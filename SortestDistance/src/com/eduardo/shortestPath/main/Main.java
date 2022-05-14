@@ -10,7 +10,7 @@ public class Main {
 		char[][] grid = { { '0', '*', '0', 's' }, { '*', '0', '*', '*' }, { '0', '*', '*', '*' },
 				{ 'd', '*', '*', '*' } };
 		char[][] grid2 = { { '0', 's' }, { '*', '0',  } };
-		char[][] grid3 = { { '0', '*', 's' }, { 'd', '0', '*' }, };
+		char[][] grid3 = { { '*', '*', 's' }, { 'd', '*', '*' }, };
 
 		TreeBuilder tb = new TreeBuilder(grid3);
 		SearchShortedTree st = tb.buildSearchTree();
@@ -19,10 +19,14 @@ public class Main {
 		System.out.println(output);
 		
 		// teste
-//		Node n1 = new Node(null, 'a', 1, 0);
-//		Node n2 = new Node(n1, 'b', 4, 5);
-//		Node n3 = new Node(n2, 'c', 5, 5);
-//		Node n4 = new Node(n3, 'd', 1, 1);
-//		System.out.println(Node.isInParentTree2(n3, n4));
+//		Node n1 = new Node('a', 1, 0);
+//		n1.parent = null;
+//		Node n2 = new Node('b', 4, 5);
+//		n2.parent = n1;
+//		Node n3 = new Node('c', 5, 5);
+//		n3.parent = n2;
+//		Node n4 = new Node('d', 1, 1);
+//		n4.parent = n3;
+//		System.out.println(n1.isAlreadyInTree(n3));
 	}
 }
