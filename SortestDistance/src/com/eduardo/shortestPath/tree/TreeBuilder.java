@@ -5,58 +5,42 @@ public class TreeBuilder {
 	char[][] grid;
 	Node root;
 	Node destiny;
+	
+	private final static char START_CHAR = 's';
+	private final static char DESTINY_CHAR = 'd';
 
 	public TreeBuilder(char[][] grid) {
 		this.grid = grid;
-		this.root = getRootNode();
-		this.destiny = getDestinyNode();
+		this.root = getFirstNodeByValue(START_CHAR);
+		this.destiny = getFirstNodeByValue(DESTINY_CHAR);
 	}
 
 	public SearchShortedTree buildSearchTree() {
-		int startLine = Integer.valueOf(root.getUid().substring(0, 1));
-		int startColumn = Integer.valueOf(root.getUid().substring(1, 2));
-		addNeighborNode(null, root, startLine, startColumn);
+		int startLine = Integer.valueOf(this.root.getUid().substring(0, 1));
+		int startColumn = Integer.valueOf(this.root.getUid().substring(1, 2));
+		addNeighborNode(null, this.root, startLine, startColumn);
 
-		return new SearchShortedTree(root);
+		return new SearchShortedTree(this.root);
 	}
 
-	private Node getRootNode() {
 
-		Node start = null;
+	private Node getFirstNodeByValue(char signal) {
+		Node desired = null;
 
 		boolean found = false;
 		int l = 0;
-		while (l < grid.length && !found) {
+		while (l < this.grid.length && !found) {
 			int c = 0;
-			while (c < grid[0].length && !found) {
-				if (grid[l][c] == 's') {
+			while (c < this.grid[0].length && !found) {
+				if (this.grid[l][c] == signal) {
 					found = true;
-					start = new Node('s', l, c);
+					desired = new Node(signal, l, c);
 				}
 				c++;
 			}
 			l++;
 		}
-		return start;
-	}
-
-	private Node getDestinyNode() {
-		Node destiny = null;
-
-		boolean found = false;
-		int l = 0;
-		while (l < grid.length && !found) {
-			int c = 0;
-			while (c < grid[0].length && !found) {
-				if (grid[l][c] == 'd') {
-					found = true;
-					destiny = new Node('d', l, c);
-				}
-				c++;
-			}
-			l++;
-		}
-		return destiny;
+		return desired;
 	}
 
 	private void addNeighborNode(Node previous, Node current, int line, int column) {
@@ -65,7 +49,7 @@ public class TreeBuilder {
 				previous.addChildren(current);
 			}
 
-			if (!current.equals(destiny)) {
+			if (!current.equals(this.destiny)) {
 				goToNeighborNode(current, line - 1, column); // up
 				goToNeighborNode(current, line, column - 1); // left
 				goToNeighborNode(current, line + 1, column); // down
@@ -84,7 +68,7 @@ public class TreeBuilder {
 	private Node getNeighborNode(Node parent, int line, int column) {
 		Node node = null;
 		try {
-			node = new Node(grid[line][column], line, column);
+			node = new Node(this.grid[line][column], line, column);
 		} catch (IndexOutOfBoundsException e) {
 
 		}
@@ -92,7 +76,7 @@ public class TreeBuilder {
 	}
 
 	private boolean isObstacle(int line, int column) {
-		return grid[line][column] == '0';
+		return this.grid[line][column] == '0';
 	}
 
 }
