@@ -15,11 +15,11 @@ public class TestRecursion {
 		
 		IntStream stream = Arrays.stream(array);
 //		System.out.println(stream.min().getAsInt());
-		System.out.println("batatas: ");
-		stream.map(e -> {
-			System.out.println(e);
-			return e;
-		}).min();
+//		System.out.println("batatas: ");
+//		stream.map(e -> {
+//			System.out.println(e);
+//			return e;
+//		}).min();
 	}
 
 	private static class Recursionaire {
