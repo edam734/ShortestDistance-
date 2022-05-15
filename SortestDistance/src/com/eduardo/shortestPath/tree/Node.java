@@ -29,6 +29,10 @@ public class Node {
 		return uid;
 	}
 
+	public boolean isLeaf() {
+		return getChildren().isEmpty();
+	}
+
 	public boolean addChildren(Node node) {
 		node.addParent(this);
 		return children.add(node);
@@ -81,10 +85,6 @@ public class Node {
 	public String toSimpleString() {
 		return "Node [value=" + value + ", uid=" + uid + "]";
 
-	}
-
-	public boolean isLeaf() {
-		return getChildren().isEmpty();
 	}
 
 }

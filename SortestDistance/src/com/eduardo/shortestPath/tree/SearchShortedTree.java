@@ -71,7 +71,7 @@ public class SearchShortedTree {
 		Queue<Node> newQueue = new ArrayDeque<>();
 		while (!queue.isEmpty()) {
 			Node current = queue.remove();
-			if (current.getValue() == 'd') {
+			if (current.getValue() == TreeBuilder.DESTINY_CHAR) {
 				return depth;
 			}
 			newQueue.addAll(current.getChildren());
