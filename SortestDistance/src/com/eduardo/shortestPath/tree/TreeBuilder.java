@@ -5,9 +5,9 @@ public class TreeBuilder {
 	char[][] grid;
 	Node root;
 	Node destiny;
-	
-	private final static char START_CHAR = 's';
-	private final static char DESTINY_CHAR = 'd';
+
+	public final static char START_CHAR = 's';
+	public final static char DESTINY_CHAR = 'd';
 
 	public TreeBuilder(char[][] grid) {
 		this.grid = grid;
@@ -22,7 +22,6 @@ public class TreeBuilder {
 
 		return new SearchShortedTree(this.root);
 	}
-
 
 	private Node getFirstNodeByValue(char signal) {
 		Node desired = null;

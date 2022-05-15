@@ -83,4 +83,8 @@ public class Node {
 
 	}
 
+	public boolean isLeaf() {
+		return getChildren().isEmpty();
+	}
+
 }

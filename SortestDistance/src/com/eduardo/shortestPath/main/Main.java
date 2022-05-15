@@ -13,7 +13,7 @@ public class Main {
 		char[][] grid3 = { { '*', '*', 's' }, { '*', 'd', '*' }, };
 		char[][] grid4 = { { '*', '*', 's' }, { 'd', '*', '*' }, };
 
-		TreeBuilder tb = new TreeBuilder(grid3);
+		TreeBuilder tb = new TreeBuilder(grid4);
 		SearchShortedTree st = tb.buildSearchTree();
 		System.out.println(st.getRoot().toString());
 		int output = st.minDistance();

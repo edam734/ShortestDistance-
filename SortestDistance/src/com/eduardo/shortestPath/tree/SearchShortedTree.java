@@ -7,11 +7,9 @@ import java.util.Queue;
 public class SearchShortedTree {
 
 	Node root;
-	int min;
 
 	public SearchShortedTree(Node root) {
 		this.root = root;
-		this.min = -1;
 	}
 
 	public Node getRoot() {
@@ -19,8 +17,7 @@ public class SearchShortedTree {
 	}
 
 	public int minDistance() {
-		depthFirstSearch(this.root, 0);
-		return this.min;
+		return depthFirstSearch(this.root, 0);
 	}
 
 	/**
@@ -29,26 +26,29 @@ public class SearchShortedTree {
 	 * shortest destination node.
 	 * 
 	 * @param node  The current node
-	 * @param count The current depth of the {@code SearchShortedTree}
+	 * @param depth The current depth of the {@code SearchShortedTree}
 	 */
-	private void depthFirstSearch(Node node, int count) {
+	private int depthFirstSearch(Node node, int depth) {
 		List<Node> children = node.getChildren();
-		for (Node child : children) {
-			depthFirstSearch(child, count + 1);
-		}
 
 		// base case
-		// verify if it's a destiny node
-		if (node.getValue() == 'd') {
-			if (this.min == -1) {
-				this.min = count;
-			} else if (this.min > count) {
-				this.min = count;
-			}
+		if (node.getValue() == TreeBuilder.DESTINY_CHAR) { // it's a destiny node
+			return depth;
+		} else if (node.isLeaf()) { // it's a useless leaf
+			return Integer.MAX_VALUE; // to discard value
+		} else { // not the base case
+			return children.stream().map(child -> {
+				return depthFirstSearch(child, depth + 1);
+			}).min(Integer::compare).get();
 		}
 
 	}
 
+	/**
+	 * 
+	 * @requires this.root is never the destination
+	 * @return
+	 */
 	public int minDistanceBFS() {
 		Queue<Node> queue = new ArrayDeque<>();
 		queue.addAll(this.root.getChildren());
