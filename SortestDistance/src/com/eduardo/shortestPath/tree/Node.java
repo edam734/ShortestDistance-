@@ -17,16 +17,16 @@ public class Node {
 		this.uid = new StringBuilder().append(line).append(column).toString();
 	}
 
-	public List<Node> getChildren() {
-		return children;
+	public String getUid() {
+		return uid;
 	}
 
 	public char getValue() {
 		return value;
 	}
 
-	public String getUid() {
-		return uid;
+	public List<Node> getChildren() {
+		return children;
 	}
 
 	public boolean isLeaf() {
@@ -80,11 +80,6 @@ public class Node {
 		} else if (!uid.equals(other.uid))
 			return false;
 		return true;
-	}
-
-	public String toSimpleString() {
-		return "Node [value=" + value + ", uid=" + uid + "]";
-
 	}
 
 }
